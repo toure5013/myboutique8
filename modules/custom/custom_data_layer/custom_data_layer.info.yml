@@ -1,0 +1,4 @@
+name: Custom Data Layer
+type: module
+core: 8.x
+description: "Add custom data to the datalayer."

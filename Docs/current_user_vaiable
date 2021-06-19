@@ -1,0 +1,28 @@
+ get current user in drupal 8
+Description: In drupal 7 we get the current user object by defining global $user but in drupal 8 this quite different. If you want to get current user object then follow below code.
+
+$current_user = \Drupal::currentUser();
+
+$uid = $current_user->id();
+It returns user id of current user.
+
+$user_mail = $current_user->getEmail();
+It returns user email id.
+
+$user_display_name = $current_user->getDisplayName();
+It returns user display name.
+
+$user_account_name = $current_user->getAccountName()
+It returns user account name.
+
+$user_roles = $current_user->getRoles();
+It returns array of current user has.
+
+$current_user->isAnonymous();
+It returns true or false.
+
+$current_user->isAuthenticated();
+It returns true or false.
+
+$current_user->getLastAccessedTime();
+It returns timestamp of last logged in time for this user

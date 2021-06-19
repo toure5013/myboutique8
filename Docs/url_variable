@@ -1,0 +1,15 @@
+// get the host  : drupal8.local
+$host = $_SERVER['HTTP_HOST'];
+OR
+$host = \Drupal::request()->getHost();
+
+//GET FULL URL  https://drupal8.local
+$host = \Drupal::request()->getSchemeAndHttpHost();
+
+//get the node value
+$current_path = \Drupal::service('path.current')->getPath(); // = node/x
+// get the current uri
+$current_uri = \Drupal::request()->getRequestUri(); //  = /myboutique8/myinfo
+// get the path (alias)
+$result = \Drupal::service('path.alias_manager')->getAliasByPath($current_path); // = /myinfo return the alias
+

@@ -1,0 +1,11 @@
+BISMILAHI RAHMANI RAHIM
+ALAHOUMA SOLI ALA MOUHAMADIN WA ALA ALI MOUHAMADIN WA SALIM
+
+-Install google tag manager :  (https://www.specbee.com/blogs/integrate-Google-Tag-Manager-Drupal8-easy-tutorial)
+    - dowload https://www.drupal.org/project/google_tag
+    - in drupal dashboard, 
+        - in extend menu, install the module
+        - in configuration, in google tag manager, create new container copy the id of container in gtm and past it then save
+
+- Datalayer
+

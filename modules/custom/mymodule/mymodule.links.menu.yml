@@ -1,0 +1,6 @@
+mymodule.page:
+  title: "My module Staff"
+  description: "Link to the page mymodule created"
+  route_name: mymodule.content
+  weight: 10
+  menu_name: main

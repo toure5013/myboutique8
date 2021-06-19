@@ -1,0 +1,130 @@
+<?php
+
+/**
+ * Custom datalayer   
+ * ADD THE META DATA KEYS
+ */ 
+
+function custom_data_layer_datalayer_meta() {
+    return array(
+      'brand',
+      'market_place',
+      'BISMILLAH',
+      'page_hostname'
+    );
+}
+
+
+//   function custom_data_layer_myevent_func($argument = FALSE) {
+//     // print_r($argument);
+//     if ($argument) {
+//       datalayer_add(array(
+//         'drupalMyProperty' => $argument,
+//         'userAnotherProperty' => custom_data_layer_other_funct($argument),
+//       ));
+//     //   datalayer_add(array(
+//     //     'brand' => 'oci',
+//     //     'market_place' => 'OCI MARKET',
+//     //     'BISMILLAH' => 'YA ALLAH',
+//     //     'page_hostname' => 'http://localhost/myboutique8'
+//     //   ));
+//     }
+//   }
+
+
+/**
+ * Custom datalayer   
+ * TO MANAGE THE KEYS, UNSET FOR EXAMPLE
+ */ 
+  function custom_data_layer_datalayer_meta_alter(&$properties) {
+    // get the host with http(s)
+    $host = \Drupal::request()->getSchemeAndHttpHost();
+    $request = \Drupal::request();
+    $title = "";
+    if ($route = $request->attributes->get(\Symfony\Cmf\Component\Routing\RouteObjectInterface::ROUTE_OBJECT)) {
+        $title = \Drupal::service('title_resolver')->getTitle($request, $route); 
+    }
+    $key = array_search('name', $properties);
+    $key1 = array_search('BISMILLAH', $properties);
+    $key2 = array_search('brand', $properties);
+    $key3 = array_search('market_place', $properties);
+    $key4 = array_search('page_hostname', $properties);
+    // print_r("keys  : ");
+    
+    // print($properties[$key]);   
+    // print_r(" |");
+    // print($key1);
+    // // print($properties[$key]);
+    // print_r(" |");
+    // print($key2);
+    // print_r(" |");
+    // print($key3);
+    // print_r(" |");
+    // print($key4);
+
+
+    // Specific situation alteration...
+    $type = false;
+    if ($obj = _datalayer_menu_get_any_object($type)) {
+      if ($type === 'node' && in_array(array('my_bundle', 'my_nodetype'), $obj->type)) {
+        // Remove author names on some content type.
+        if ($key = array_search('name', $properties)) {
+        //   unset($properties[$key]);
+        }
+      }
+      elseif ($type === 'my_entity_type') {
+        // Remove some property on some entity type.
+        if ($key = array_search('my_property', $properties)) {
+        //   unset($properties[$key]);
+        }
+      }
+    }
+  }
+
+
+
+  /**
+ * Custom datalayer   
+ * TO EDIT KEYS VALUES OR ADING NEW KEYS/VALUES TO THE DATALAYER
+ */ 
+  function custom_data_layer_datalayer_alter(&$data_layer) {
+    
+    // get the host with http(s)
+    $host = \Drupal::request()->getSchemeAndHttpHost();
+    $request = \Drupal::request();
+    $current_user = \Drupal::currentUser();
+
+    $title = "";
+    if ($route = $request->attributes->get(\Symfony\Cmf\Component\Routing\RouteObjectInterface::ROUTE_OBJECT)) {
+        $title = \Drupal::service('title_resolver')->getTitle($request, $route); 
+    }
+
+    // print($title);
+
+    $data_layer['brand'] = "oci";
+    $data_layer['market_place'] = "oci market_place";
+    $data_layer['BISMILLAH'] = "YA ALLAH";
+    $data_layer['page_hostname'] = $host;
+    $data_layer['page_name'] = $title;
+
+    if($title == "My info"){
+        $data_layer['page_name222222'] = $title;
+    }
+
+    $data_layer['orange_client_id'] = " ********** orange hashed id ********** ";
+    
+    if($current_user->isAuthenticated()){
+        $data_layer['user_logged'] = TRUE;
+        $data_layer['client_type'] = " **** client type **** ";
+    }else {
+        $data_layer['user_logged'] = FALSE;
+    }
+    // print_r($data_layer);
+    /*
+        Array ( [language] => en [country] => CI [siteName] => myboutique8 [entityLangcode] => en [entityStatus] => 1 [entityUid] => 1 [entityUuid] => aaa85287-499c-4b7c-9754-e26480200f56 [entityName] => admin [page_type] => node [entityBundle] => page [page_id] => 4 [page_url] => My info [userUid] => 1 [brand] => oci [market_place] => oci market_place [BISMILLAH] => YA ALLAH [page_hostname] => http://localhost [page_name] => My info [page_name222222] => My info [orange_client_id] => ********** orange hashed id ********** [user_logged] => 1 [client_type] => **** client type **** )
+    */
+
+    // Make the title lowercase on some node type.
+    // if (isset($data_layer['entityBundle']) && $data_layer['entityBundle'] == 'mytype') {
+    //   $data_layer['entityLabel'] = strtolower($data_layer['entityLabel']);
+  }
