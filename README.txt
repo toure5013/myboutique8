@@ -9,7 +9,7 @@ CONTENTS OF THIS FILE
  * Developing for Drupal
  * More information
 
-
+cgo-zdbf-gjz
 ABOUT DRUPAL
 ------------
 
@@ -18,7 +18,8 @@ websites ranging from personal weblogs to large community-driven websites. For
 more information, see the Drupal website at https://www.drupal.org, and join
 the Drupal community at https://www.drupal.org/community.
 
-Legal information about Drupal:
+Legal.
+ information about Drupal:
  * Know your rights when using Drupal:
    See LICENSE.txt in the "core" directory.
  * Learn about the Drupal trademark and logo policy:
@@ -141,3 +142,14 @@ MORE INFORMATION
  * For information about the wide range of available support options, visit
    https://www.drupal.org and click on Community and Support in the top or
    bottom navigation.
+
+
+
+
+
+
+
+
+db_name= id11940460_myboutique8
+user = id11940460_root
+pd = q4+7[Jukz-x>*j|h

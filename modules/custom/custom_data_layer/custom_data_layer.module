@@ -49,21 +49,7 @@ function custom_data_layer_datalayer_meta() {
     $key2 = array_search('brand', $properties);
     $key3 = array_search('market_place', $properties);
     $key4 = array_search('page_hostname', $properties);
-    // print_r("keys  : ");
-    
-    // print($properties[$key]);   
-    // print_r(" |");
-    // print($key1);
-    // // print($properties[$key]);
-    // print_r(" |");
-    // print($key2);
-    // print_r(" |");
-    // print($key3);
-    // print_r(" |");
-    // print($key4);
-
-
-    // Specific situation alteration...
+      // Specific situation alteration...
     $type = false;
     if ($obj = _datalayer_menu_get_any_object($type)) {
       if ($type === 'node' && in_array(array('my_bundle', 'my_nodetype'), $obj->type)) {
@@ -84,12 +70,18 @@ function custom_data_layer_datalayer_meta() {
 
 
   /**
- * Custom datalayer   
- * TO EDIT KEYS VALUES OR ADING NEW KEYS/VALUES TO THE DATALAYER
- */ 
+  * Custom datalayer   
+  * TO EDIT KEYS VALUES OR ADING NEW KEYS/VALUES TO THE DATALAYER
+  */
   function custom_data_layer_datalayer_alter(&$data_layer) {
-    
     // get the host with http(s)
+    // $encrypted_string = _decrypt_function("K4cQojmv/mg=");
+    // $decryption = _decrypt_function("K4cQojmv/mg=");
+    $user = _current_user();
+    $email = $user->get('mail')->value;
+    $name = $user->get('name')->value;
+    $uid= $user->get('uid')->value;
+
     $host = \Drupal::request()->getSchemeAndHttpHost();
     $request = \Drupal::request();
     $current_user = \Drupal::currentUser();
@@ -99,32 +91,106 @@ function custom_data_layer_datalayer_meta() {
         $title = \Drupal::service('title_resolver')->getTitle($request, $route); 
     }
 
-    // print($title);
-
-    $data_layer['brand'] = "oci";
-    $data_layer['market_place'] = "oci market_place";
-    $data_layer['BISMILLAH'] = "YA ALLAH";
-    $data_layer['page_hostname'] = $host;
-    $data_layer['page_name'] = $title;
-
-    if($title == "My info"){
-        $data_layer['page_name222222'] = $title;
+    // $language = $current_user->language();
+    // echo($language)
+    $data_layer['userid'] =  '0';
+    if (!empty ($current_user)) {
+      $data_layer['userid'] = $current_user->isAuthenticated() ? _encrypt_function($uid) : '0';
     }
 
-    $data_layer['orange_client_id'] = " ********** orange hashed id ********** ";
-    
+    $data_layer['BISMILLAH'] = "YA ALLAH";
+    $data_layer['brand'] = "orange";
+    $data_layer['site_domain'] = "eshop";
+    $data_layer['market_country'] = "oci";
+    $data_layer['page_hostname'] = $host;
+    $data_layer['page_name'] = $title;
+    $data_layer['page_type'] = $title;
+
     if($current_user->isAuthenticated()){
         $data_layer['user_logged'] = TRUE;
         $data_layer['client_type'] = " **** client type **** ";
     }else {
         $data_layer['user_logged'] = FALSE;
     }
+
+
+    /*----------------------------------------------------------------------------------------------
+      This list of data must be reviewed
+    ------------------------------------------------------------------------------------------------*/
+    if($title == "My info"){
+      $data_layer['page_name'] = $title;
+      $data_layer['page_type'] = $title;
+    }
+    if (!empty ($current_user)) {
+      $data_layer['orange_client_id'] = $current_user->isAuthenticated() ? _encrypt_function($uid) : '0';
+    }
+
     // print_r($data_layer);
     /*
         Array ( [language] => en [country] => CI [siteName] => myboutique8 [entityLangcode] => en [entityStatus] => 1 [entityUid] => 1 [entityUuid] => aaa85287-499c-4b7c-9754-e26480200f56 [entityName] => admin [page_type] => node [entityBundle] => page [page_id] => 4 [page_url] => My info [userUid] => 1 [brand] => oci [market_place] => oci market_place [BISMILLAH] => YA ALLAH [page_hostname] => http://localhost [page_name] => My info [page_name222222] => My info [orange_client_id] => ********** orange hashed id ********** [user_logged] => 1 [client_type] => **** client type **** )
     */
+  }
 
-    // Make the title lowercase on some node type.
-    // if (isset($data_layer['entityBundle']) && $data_layer['entityBundle'] == 'mytype') {
-    //   $data_layer['entityLabel'] = strtolower($data_layer['entityLabel']);
+
+  function _test(){
+    echo("hello");
+  }
+
+
+  function _encrypt_function($simple_string  = "Welcome to GeeksforGeeks\n"){
+    
+    // Store the cipher method
+    $ciphering = "AES-128-CTR";
+    
+    // Use OpenSSl Encryption method
+    $iv_length = openssl_cipher_iv_length($ciphering);
+    $options = 0;
+      
+    // Non-NULL Initialization Vector for encryption
+    $encryption_iv = '12345875421782121';
+      
+    // Store the encryption key
+    $encryption_key = "BISMILLAH_NASROU_MINALAH_WA_FATHOU_CARIB_WALA_AWLA_WALA_KOUWATA_ILA_BILA";
+      
+    // Use openssl_encrypt() function to encrypt the data
+    $encrypted_string = openssl_encrypt($simple_string, $ciphering,
+                $encryption_key, $options, $encryption_iv);
+      
+    // Display the encrypted string
+    return $encrypted_string;
+  }
+
+  
+
+  function _decrypt_function($encrypted_string){
+    // Store the cipher method
+    $ciphering = "AES-128-CTR";
+  
+    // Use OpenSSl Encryption method
+    $iv_length = openssl_cipher_iv_length($ciphering);
+    $options = 0;
+
+    // Non-NULL Initialization Vector for encryption
+    $decryption_iv = '12345875421782121';
+      
+    // Store the encryption key
+    $decryption_key = "BISMILLAH_NASROU_MINALAH_WA_FATHOU_CARIB_WALA_AWLA_WALA_KOUWATA_ILA_BILA";
+      
+    // Use openssl_decrypt() function to decrypt the data
+    $decrypted_string=openssl_decrypt ($encrypted_string, $ciphering, 
+            $decryption_key, $options, $decryption_iv);
+      
+    // Display the decrypted string
+    return $decrypted_string;
+  }
+
+  function _current_user(){
+    $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+   
+    // Load the current user.
+    // $email = $user->get('mail')->value;
+    // $name = $user->get('name')->value;
+    // $uid= $user->get('uid')->value;
+ 
+    return  $user;
   }
