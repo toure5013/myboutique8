@@ -54,6 +54,8 @@
         '#type' => 'hidden',
         );
 
+        $form['#attached']['library'][] = 'rsvplist/rsvplist';
+
         return $form;
     }
 

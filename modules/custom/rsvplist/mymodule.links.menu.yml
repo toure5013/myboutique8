@@ -1,0 +1,6 @@
+rsvplist.page:
+  title: "Myrsvplist form"
+  description: "Link to the page my rsvplist form"
+  route_name: rsvplist.myform
+  weight: 10
+  menu_name: main

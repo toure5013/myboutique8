@@ -1,5 +1,5 @@
-rsvplist.form:
-  path: "rsvplist"
+rsvplist.myform:
+  path: "/rsvplist"
   defaults:
     _form: 'Drupal\rsvplist\Form\RSVPForm'
     _title: "RSVP to this event"
